@@ -7,8 +7,10 @@ import useUpdater from '../hooks/useUpdater';
 
 function App() {
 
+	// updatesPerSecond is kind of conceptually similar to FPS...
+	// ...but remember that renderung isn't the same as painting
 	const FPS = 60;
-	const {updateList, framesElapsed, secondsElapsed} = useUpdater(FPS);
+	const {updateList, secondsElapsed, updatesRequested} = useUpdater(FPS, true);
 
 	const cursor = useCursor();
 	const viewport = useViewport();
@@ -17,9 +19,9 @@ function App() {
 		<div className={'outline'}>
 			<div className={'monospace'}>
 				Debug Information <br/><br/>
-				Frames Elapsed: {framesElapsed} <br/>
-				Seconds Elapsed: {(secondsElapsed.current).toFixed(2)} <br/> 
-				Average FPS: {(framesElapsed/secondsElapsed.current).toFixed(2)} <br/><br/>
+				Frames Elapsed: {updatesRequested.current} <br/>
+				Seconds Elapsed: {(secondsElapsed).toFixed(2)} <br/> 
+				Average FPS: {(updatesRequested.current/secondsElapsed).toFixed(2)} <br/><br/>
 			</div>
 			<MoverSet
 				updateList={updateList}
