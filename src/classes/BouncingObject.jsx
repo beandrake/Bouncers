@@ -7,27 +7,17 @@ class BouncingObject extends VelocityObject {
 	 * Make an updateable object that bounces off certain things.
 	 * Currently those things are the cursor and the viewport edges.
 	 * @param {*} contextData 
-	 * @param {number} left 
-	 * @param {number} top 
+	 * @param {number} centerX 
+	 * @param {number} centerY 
 	 * @param {number} width 
 	 * @param {number} height 
 	 * @param {string} color 
 	 * @param {number} velocityX 
 	 * @param {number} velocityY 
 	 */
-	constructor(contextData, left, top, width, height, color, velocityX=0, velocityY=0) {
-		super(left, top, width, height, color, velocityX, velocityY);
+	constructor(contextData, centerX, centerY, width, height, color, velocityX=0, velocityY=0) {
+		super(centerX, centerY, width, height, color, velocityX, velocityY);
 		this.context = contextData;
-	}
-
-	/**
-	 * Returns an object containing the x and y coordinates of my center.
-	 */
-	getCenter() {
-		return {
-			x: this.left + (this.width/2),
-			y: this.top + (this.height/2)
-		}
 	}
 
 	/**
@@ -52,9 +42,8 @@ class BouncingObject extends VelocityObject {
 	 */
 	accelerateAwayFrom(targetX, targetY, magnitude=1) {
 		// calculate a normalized vector from cursor to center
-		const center = this.getCenter();
-		const vectorX = center.x - targetX;
-		const vectorY = center.y - targetY;
+		const vectorX = this.x - targetX;
+		const vectorY = this.y - targetY;
 		const unitVector = this.normalizeVector(vectorX, vectorY);
 		
 		this.velocityX += unitVector.x * magnitude;
@@ -90,10 +79,10 @@ class BouncingObject extends VelocityObject {
 	bounceOffCursorChecks() {
 		const cursorX = this.context.cursor.current.x;
 		const cursorY = this.context.cursor.current.y;
-		const moverLeft = this.left;
-		const moverRight = this.left + this.width;
-		const moverTop = this.top;
-		const moverBottom = this.top + this.height;
+		const moverLeft = this.getLeft();
+		const moverRight = this.getLeft() + this.width;
+		const moverTop = this.getTop();
+		const moverBottom = this.getTop() + this.height;
 		// apply changes to velocity based on if cursor is touching me
 		if (moverLeft <= cursorX && cursorX <= moverRight &&
 			moverTop <= cursorY && cursorY <= moverBottom) {
@@ -112,10 +101,10 @@ class BouncingObject extends VelocityObject {
 	bounceOffViewportChecks() {
 		// Prediction prevents it from going outside window, since
 		// divs positioned beyond the window can make an unwanted scrollbar.
-		const predictedLeft = this.velocityX + this.left;
-		const predictedRight = this.velocityX + this.left + this.width;
-		const predictedTop = this.velocityY + this.top;
-		const predictedBottom = this.velocityY + this.top + this.height;
+		const predictedLeft = this.velocityX + this.getLeft();
+		const predictedRight = this.velocityX + this.getLeft() + this.width;
+		const predictedTop = this.velocityY + this.getTop();
+		const predictedBottom = this.velocityY + this.getTop() + this.height;
 		if(
 			this.velocityX < 0 && predictedLeft < 0 ||
 			this.velocityX > 0 && this.context.viewport.current.width < predictedRight
@@ -128,14 +117,6 @@ class BouncingObject extends VelocityObject {
 			){
 			this.velocityY = -this.velocityY
 		}			
-	}
-
-	/**
-	 * Apply velocity to current position.
-	 */
-	updatePosition() {
-		this.left += this.velocityX;
-		this.top += this.velocityY;
 	}
 
 	/**

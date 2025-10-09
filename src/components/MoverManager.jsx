@@ -33,8 +33,8 @@ function MoverManager(props) {
 						{
 							key: this.moverKey,
 							startData: {
-								left: xPosition,
-								top: yPosition, 
+								centerX: xPosition,
+								centerY: yPosition, 
 								width: width, 
 								height: width,
 								color: randomColor,

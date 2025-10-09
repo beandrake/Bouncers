@@ -4,27 +4,33 @@ import SpaceObject from './SpaceObject'
 class VelocityObject extends SpaceObject {
 	/**
 	 * Make an updateable object with a constant velocity.
-	 * @param {*} left 
-	 * @param {*} top 
+	 * @param {*} centerX 
+	 * @param {*} centerY 
 	 * @param {*} width 
 	 * @param {*} height 
 	 * @param {*} color 
 	 * @param {*} velocityX 
 	 * @param {*} velocityY 
 	 */
-	constructor(left, top, width, height, color, velocityX=0, velocityY=0) {
-		super(left, top, width, height, color);
+	constructor(centerX, centerY, width, height, color, velocityX=0, velocityY=0) {
+		super(centerX, centerY, width, height, color);
 		this.velocityX = velocityX;
 		this.velocityY = velocityY;
 	}
 
 	/**
-	 * Update!  Apply velocity.
+	 * Apply velocity to current position.
+	 */
+	updatePosition() {
+		this.x += this.velocityX;
+		this.y += this.velocityY;
+	}
+
+	/**
+	 * Updates to occur every update interval.
 	 */
 	update() { 
-		// apply changes to position based on velocity
-		this.left += this.velocityX;
-		this.top += this.velocityY;
+		updatePosition();
 	}
 }
 

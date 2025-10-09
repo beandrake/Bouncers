@@ -35,7 +35,7 @@ function App() {
 				Viewport Width & Height: {viewport.current.width}, {viewport.current.height}
 			</div>
 			<Mover 
-				initial={{left: 50, top:50, width:100, height:100, color:'white'}}
+				initial={{centerX:100, centerY:100, width:100, height:100, color:'white'}}
 				updateList={updateList}
 				cursor={cursor}
 				viewport={viewport}

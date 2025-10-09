@@ -8,8 +8,8 @@ function Mover(props) {
 	if (!mover.current) {
 		mover.current = new BouncingObject(
 			{viewport:props.viewport, cursor:props.cursor}, //contextData
-			props.initial.left,
-			props.initial.top,
+			props.initial.centerX,
+			props.initial.centerY,
 			props.initial.width,
 			props.initial.height,
 			props.initial.color,
