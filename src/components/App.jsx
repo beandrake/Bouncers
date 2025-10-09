@@ -1,5 +1,5 @@
 import React from 'react';
-import MoverSet from './MoverSet';
+import MoverManager from './MoverManager';
 import Mover from './Mover';
 import useCursor from '../hooks/useCursor';
 import useViewport from '../hooks/useViewport';
@@ -23,7 +23,7 @@ function App() {
 				Seconds Elapsed: {(secondsElapsed).toFixed(2)} <br/> 
 				Average FPS: {(updatesRequested.current/secondsElapsed).toFixed(2)} <br/><br/>
 			</div>
-			<MoverSet
+			<MoverManager
 				updateList={updateList}
 				cursor={cursor}
 				viewport={viewport}
